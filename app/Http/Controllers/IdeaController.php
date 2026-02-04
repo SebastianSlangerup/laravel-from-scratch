@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\IdeaRequest;
 use App\Http\Requests\UpdateIdeaRequest;
 use App\Models\Idea;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\Factory;
+use Illuminate\View\View;
 
 class IdeaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Factory|View
     {
         $ideas = Idea::all();
 
@@ -24,7 +28,7 @@ class IdeaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Factory|View
     {
         return view('ideas.create');
     }
@@ -32,7 +36,7 @@ class IdeaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(IdeaRequest $request)
+    public function store(IdeaRequest $request): RedirectResponse|Redirector
     {
         Idea::query()->create([
             'description' => $request->input('description'),
@@ -45,7 +49,7 @@ class IdeaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Idea $idea)
+    public function show(Idea $idea): Factory|View
     {
         return view('ideas.show', [
             'idea' => $idea,
@@ -55,7 +59,7 @@ class IdeaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Idea $idea)
+    public function edit(Idea $idea): Factory|View
     {
         return view('ideas.edit', [
             'idea' => $idea,
@@ -65,7 +69,7 @@ class IdeaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(IdeaRequest $request, Idea $idea)
+    public function update(IdeaRequest $request, Idea $idea): RedirectResponse|Redirector
     {
         $idea->update([
             'description' => $request->input('description'),
@@ -77,7 +81,7 @@ class IdeaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Idea $idea)
+    public function destroy(Idea $idea): RedirectResponse|Redirector
     {
         $idea->delete();
 

@@ -2,7 +2,9 @@
     <div class="navbar-start">
         <div class="dropdown">
             <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
+                </svg>
             </div>
             <ul
                 tabindex="-1"
@@ -19,7 +21,17 @@
             <li><a href="/ideas/create">New Idea</a></li>
         </ul>
     </div>
-    <div class="navbar-end">
-        <a class="btn">Register</a>
+    <div class="navbar-end space-x-2">
+        @auth
+            <form method="POST" action="/logout">
+                @csrf
+                @method('DELETE')
+
+                <button class="btn btn-ghost">Log out</button>
+            </form>
+        @else
+                <a class="btn btn-primary" href="/register">Register</a>
+                <a class="btn btn-secondary" href="/login">Log In</a>
+        @endauth
     </div>
 </div>
