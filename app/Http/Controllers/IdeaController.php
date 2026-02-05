@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IdeaRequest;
-use App\Http\Requests\UpdateIdeaRequest;
 use App\Models\Idea;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
 
@@ -18,7 +17,9 @@ class IdeaController extends Controller
      */
     public function index(): Factory|View
     {
-        $ideas = Idea::all();
+        $ideas = Idea::query()->where([
+            'user_id' => Auth::id(),
+        ])->get();
 
         return view('ideas.index', [
             'ideas' => $ideas,
@@ -40,7 +41,7 @@ class IdeaController extends Controller
     {
         Idea::query()->create([
             'description' => $request->input('description'),
-            'state' => 'pending',
+            'user_id' => Auth::user()->id,
         ]);
 
         return redirect('/ideas');
