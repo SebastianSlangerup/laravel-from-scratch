@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
 
@@ -48,6 +49,8 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea): Factory|View
     {
+        Gate::authorize('view', $idea);
+
         return view('ideas.show', [
             'idea' => $idea,
         ]);
@@ -58,6 +61,8 @@ class IdeaController extends Controller
      */
     public function edit(Idea $idea): Factory|View
     {
+        Gate::authorize('update', $idea);
+
         return view('ideas.edit', [
             'idea' => $idea,
         ]);
@@ -68,6 +73,8 @@ class IdeaController extends Controller
      */
     public function update(IdeaRequest $request, Idea $idea): RedirectResponse|Redirector
     {
+        Gate::authorize('update', $idea);
+
         $idea->update([
             'description' => $request->input('description'),
         ]);
@@ -80,6 +87,8 @@ class IdeaController extends Controller
      */
     public function destroy(Idea $idea): RedirectResponse|Redirector
     {
+        Gate::authorize('delete', $idea);
+
         $idea->delete();
 
         return redirect('/ideas');

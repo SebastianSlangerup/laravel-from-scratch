@@ -24,9 +24,3 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [SessionsController::class, 'create']);
     Route::post('/login', [SessionsController::class, 'store']);
 });
-
-Route::get('/admin', function () {
-    Gate::authorize('view-admin');
-
-    return 'Private administrator section.';
-});
