@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IdeaRequest;
 use App\Models\Idea;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +18,8 @@ class IdeaController extends Controller
      */
     public function index(): Factory|View
     {
-        $ideas = Idea::query()->where([
-            'user_id' => Auth::id(),
-        ])->get();
-
         return view('ideas.index', [
-            'ideas' => $ideas,
+            'ideas' => Auth::user()->ideas,
         ]);
     }
 
@@ -39,9 +36,8 @@ class IdeaController extends Controller
      */
     public function store(IdeaRequest $request): RedirectResponse|Redirector
     {
-        Idea::query()->create([
-            'description' => $request->input('description'),
-            'user_id' => Auth::user()->id,
+        Auth::user()->ideas()->create([
+            'name' => $request->input('description'),
         ]);
 
         return redirect('/ideas');
